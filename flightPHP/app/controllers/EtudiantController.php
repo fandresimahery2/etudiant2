@@ -6,46 +6,42 @@ use Flight;
 
 class EtudiantController {
 
-    // GET /etudiants
     public static function getAll() {
-        $model = new Etudiant(Flight::db());
-        Flight::json($model->getAll());
-    }
+        try {
+            $model = new Etudiant(Flight::db());
+            $etudiants = $model->getAll();
 
-    // GET /etudiants/{id}
-    public static function getById($id) {
-        $model = new Etudiant(Flight::db());
-        $etu = $model->getById($id);
+            if (!is_array($etudiants)) {
+                $etudiants = [];
+            }
 
-        if ($etu)
-            Flight::json($etu);
-        else
-            Flight::json(['error' => 'Etudiant not found'], 404);
-    }
+            $etudiants = array_map(function($etu) {
+                return [
+                    'id' => $etu['id'] ?? null,
+                    'ETU' => $etu['ETU'] ?? '',
+                    'nom' => $etu['nom'] ?? '',
+                    'prenom' => $etu['prenom'] ?? '',
+                    'dtn' => $etu['dtn'] ?? ''
+                ];
+            }, $etudiants);
 
-    // POST /etudiants
-    public static function create() {
-        $data = Flight::request()->data->getData();
-        $model = new Etudiant(Flight::db());
-        $model->create($data);
-
-        Flight::json(['message' => 'Etudiant created'], 201);
-    }
-
-    // PUT /etudiants/{id}
-    public static function update($id) {
-        $data = Flight::request()->data->getData();
-        $model = new Etudiant(Flight::db());
-        $model->update($id, $data);
-
-        Flight::json(['message' => 'Etudiant updated']);
-    }
-
-    // DELETE /etudiants/{id}
-    public static function delete($id) {
-        $model = new Etudiant(Flight::db());
-        $model->delete($id);
-
-        Flight::json(['message' => 'Etudiant deleted']);
+            // Nettoyer le buffer de sortie
+            if (ob_get_level()) ob_clean();
+            
+            Flight::json([
+                'status' => 'success',
+                'data' => $etudiants,
+                'error' => null
+            ]);
+            
+        } catch (\Exception $e) {
+            if (ob_get_level()) ob_clean();
+            
+            Flight::json([
+                'status' => 'error',
+                'data' => [],
+                'error' => $e->getMessage()
+            ], 500);
+        }
     }
 }
