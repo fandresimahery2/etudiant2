@@ -31,6 +31,9 @@ export default {
         this.loading = false;
       }
     },
+    goBack() {
+      this.$router.back();
+    },
     openReleve(etudiant) {
       this.$router.push({
         name: 'ReleveNotes',
@@ -52,13 +55,15 @@ export default {
 </script>
 
 <template>
-  <div>
+  <div class="etudiants-container">
+    <button @click="goBack" class="btn-back">← Retour</button>
+    
     <h2>Étudiants du {{ $route.params.semestre }} (Option {{ $route.params.option }})</h2>
     
     <p v-if="loading">Chargement...</p>
     <p v-else-if="error" style="color: red;">{{ error }}</p>
     
-    <table v-else>
+    <table v-else-if="etudiants.length > 0">
       <thead>
         <tr>
           <th>ETU</th>
@@ -76,8 +81,8 @@ export default {
           <td>{{ etudiant.dtn }}</td>
           <td>
             <button 
-              @click="openReleve(etudiant)"
-              style="background: none; border: none; color: #4CAF50; cursor: pointer; text-decoration: underline;"
+              @click.stop="openReleve(etudiant)"
+              class="btn-moyenne"
             >
               {{ etudiant.moyenne ?? '-' }}
             </button>
@@ -85,19 +90,47 @@ export default {
         </tr>
       </tbody>
     </table>
+    
+    <div v-else>Aucun étudiant trouvé.</div>
   </div>
 </template>
 
 <style scoped>
+.etudiants-container {
+  max-width: 1000px;
+  margin: 0 auto;
+  padding: 20px;
+}
+
+.btn-back {
+  background-color: #4CAF50;
+  color: white;
+  padding: 8px 15px;
+  border: none;
+  border-radius: 4px;
+  cursor: pointer;
+  margin-bottom: 20px;
+  font-size: 14px;
+}
+
+.btn-back:hover {
+  background-color: #45a049;
+}
+
+h2 {
+  color: #333;
+  margin-bottom: 20px;
+}
+
 table {
   width: 100%;
   border-collapse: collapse;
-  margin-top: 20px;
+  margin: 15px 0;
 }
 
 th, td {
   border: 1px solid #ddd;
-  padding: 8px;
+  padding: 12px;
   text-align: left;
 }
 
@@ -114,7 +147,17 @@ tr:hover {
   background-color: #ddd;
 }
 
-button:hover {
+.btn-moyenne {
+  background: none;
+  border: none;
+  color: #4CAF50;
+  cursor: pointer;
+  text-decoration: underline;
+  font-size: 14px;
+  padding: 0;
+}
+
+.btn-moyenne:hover {
   opacity: 0.8;
 }
 </style>
