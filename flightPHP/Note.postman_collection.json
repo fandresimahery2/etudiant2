@@ -1,0 +1,111 @@
+	`{
+	"info": {
+		"_postman_id": "89cca0f5-cc93-428e-987f-7c8274cb80cb",
+		"name": "Note",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+		"_exporter_id": "49438691",
+		"_collection_link": "https://fandresimahery-878837.postman.co/workspace/a0b304ab-4cf3-46f1-85ac-a76cfa6f51e0/collection/49438691-89cca0f5-cc93-428e-987f-7c8274cb80cb?action=share&source=collection_link&creator=49438691"
+	},
+	"item": [
+		{
+			"name": "renvoi des notes sur 1 semestre",
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "{{url}}/notes/annuel/:idEtudiant/:semestre/:option\n",
+					"host": [
+						"{{url}}"
+					],
+					"path": [
+						"notes",
+						"annuel",
+						":idEtudiant",
+						":semestre",
+						":option\n"
+					],
+					"variable": [
+						{
+							"key": "idEtudiant",
+							"value": "1"
+						},
+						{
+							"key": "semestre",
+							"value": "1"
+						},
+						{
+							"key": "option\n",
+							"value": "1"
+						}
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "renvoi des notes sur 1 année",
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "{{url}}/notes/annuel/:annee/:semestre/:option\n",
+					"host": [
+						"{{url}}"
+					],
+					"path": [
+						"notes",
+						"annuel",
+						":annee",
+						":semestre",
+						":option\n"
+					],
+					"variable": [
+						{
+							"key": "annee",
+							"value": "1"
+						},
+						{
+							"key": "semestre",
+							"value": "1"
+						},
+						{
+							"key": "option\n",
+							"value": "1"
+						}
+					]
+				}
+			},
+			"response": []
+		}
+	],
+	"event": [
+		{
+			"listen": "prerequest",
+			"script": {
+				"type": "text/javascript",
+				"packages": {},
+				"requests": {},
+				"exec": [
+					""
+				]
+			}
+		},
+		{
+			"listen": "test",
+			"script": {
+				"type": "text/javascript",
+				"packages": {},
+				"requests": {},
+				"exec": [
+					""
+				]
+			}
+		}
+	],
+	"variable": [
+		{
+			"key": "url",
+			"value": ""
+		}
+	]
+}
