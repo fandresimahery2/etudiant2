@@ -26,14 +26,32 @@ export default {
 <template>
     <div>
       <h2>Notes annuelles</h2>
-      <div v-if="etudiant">
-        <strong>ETU:</strong> {{ etudiant.ETU }}<br>
-        <strong>Nom:</strong> {{ etudiant.nom }}<br>
-        <strong>Prénom:</strong> {{ etudiant.prenom }}<br>
-        <strong>Date de naissance:</strong> {{ etudiant.dtn }}<br>
-        <strong>Option:</strong> {{ $route.params.option }}<br>
+      <div class="etudiant-info" v-if="etudiant">
+        <div>
+          <strong>ETU:</strong>
+          <span>{{ etudiant.ETU }}</span>
+        </div>
+        <div>
+          <strong>Nom:</strong>
+          <span>{{ etudiant.nom }}</span>
+        </div>
+        <div>
+          <strong>Prénom:</strong>
+          <span>{{ etudiant.prenom }}</span>
+        </div>
+        <div>
+          <strong>Date de naissance:</strong>
+          <span>{{ etudiant.dtn }}</span>
+        </div>
+        <div>
+          <strong>Option:</strong>
+          <span>{{ $route.params.option }}</span>
+        </div>
+        <div>
+          <strong>Année:</strong>
+          <span>{{ $route.params.annee === '1' ? 'L1' : 'L2' }}</span>
+        </div>
       </div>
-      <p>Année : {{ $route.params.annee === '1' ? 'L1' : 'L2' }}</p>
       <table v-if="notes.length">
         <thead>
           <tr>
@@ -41,6 +59,7 @@ export default {
             <th>Note</th>
             <th>Crédit</th>
             <th>Semestre</th>
+            <th>Session</th>
           </tr>
         </thead>
         <tbody>
@@ -49,11 +68,110 @@ export default {
             <td>{{ note.note }}</td>
             <td>{{ note.credit }}</td>
             <td>{{ note.semestre }}</td>
+            <td>{{ note.dateSession ?? '-' }}</td>
           </tr>
         </tbody>
       </table>
       <p v-if="moyenne !== null"><strong>Moyenne annuelle :</strong> {{ moyenne }}</p>
       <p v-else>Chargement...</p>
     </div>
-  </template>
-  
+</template>
+<style scoped>
+.container {
+  max-width: 900px;
+  margin: 0 auto;
+  padding: 2rem;
+  font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Arial, sans-serif;
+  background: #fafafa;
+  min-height: 100vh;
+}
+
+h2 {
+  font-size: 2rem;
+  font-weight: 700;
+  color: #388e3c;
+  margin-bottom: 1.5rem;
+  text-align: center;
+}
+
+.etudiant-info {
+  background: #e8fbe6;
+  border: 1.5px solid #4caf50;
+  border-radius: 12px;
+  padding: 1.5rem 2rem;
+  margin-bottom: 2rem;
+  box-shadow: 0 2px 8px rgba(76, 175, 80, 0.08);
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
+  gap: 1.2rem;
+}
+
+.etudiant-info strong {
+  color: #388e3c;
+  font-size: 0.95rem;
+  font-weight: 600;
+  display: block;
+  margin-bottom: 0.2rem;
+}
+
+.etudiant-info span {
+  color: #222;
+  font-size: 1.08rem;
+  font-weight: 500;
+}
+
+.annee-label {
+  font-size: 1.1rem;
+  color: #4caf50;
+  font-weight: 600;
+  margin-bottom: 1rem;
+  text-align: center;
+}
+
+table {
+  width: 100%;
+  border-collapse: collapse;
+  margin: 1.5rem 0;
+  background: #e8fbe6;
+  box-shadow: 0 2px 8px rgba(76, 175, 80, 0.08);
+  border-radius: 12px;
+  overflow: hidden;
+}
+
+th, td {
+  padding: 1rem;
+  text-align: center;
+  border-bottom: 1px solid #c8e6c9;
+  font-size: 1.05rem;
+}
+
+th {
+  background: #4caf50;
+  color: #fff;
+  font-weight: 600;
+  letter-spacing: 1px;
+}
+
+tr:last-child td {
+  border-bottom: none;
+}
+
+tr:hover td {
+  background: #d0f5d6;
+  transition: background 0.2s;
+}
+
+.moyenne-label {
+  font-size: 1.15rem;
+  color: #388e3c;
+  font-weight: 600;
+  margin-top: 1.5rem;
+  text-align: right;
+}
+
+@media (max-width: 700px) {
+  .container { padding: 1rem; }
+  .etudiant-info { grid-template-columns: 1fr; padding: 1rem; }
+  th, td { padding: 0.7rem; font-size: 0.98rem; }
+}
+</style>

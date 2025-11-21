@@ -110,10 +110,12 @@ class Note {
                     c.credit,
                     a.semestre,
                     o.nom AS optionNom,
+                    s.date AS dateSession,
                     e.nom AS nomEtudiant,
                     e.ETU AS numeroEtudiant
                 FROM note n
                 JOIN avancement a ON n.idAvancement = a.idAvancement
+                JOIN session s ON a.idSession = s.idSession
                 JOIN matiere m ON n.idMatiere = m.idMatiere
                 JOIN credit c ON m.idMatiere = c.idMatiere
                 JOIN option_ o ON c.idOption = o.idOption
