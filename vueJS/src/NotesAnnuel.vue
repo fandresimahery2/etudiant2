@@ -24,6 +24,7 @@ export default {
 </script>
 
 <template>
+    
     <div>
       <h2>Notes annuelles</h2>
       <div class="etudiant-info" v-if="etudiant">
