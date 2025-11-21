@@ -87,35 +87,35 @@ Fini 5. Configuration de Postman
 
 
 
-En cours 6. Liste des semestres avec lien vers liste des étudiants (moyennes S1 à S4)
+Fini 6. Liste des semestres avec lien vers liste des étudiants (moyennes S1 à S4)
 
-    Frontend : (Luberri)
-    - Créer la page Vue JS pour afficher la liste des semestres.
-    - Ajouter un lien sur chaque semestre pour accéder à la liste des étudiants.
-    - Afficher les colonnes moyennes S1 à S4 pour chaque étudiant.
-    - **Fonctionnalités Vue JS du PDF :**
-        - Utiliser un tableau dynamique pour afficher les semestres (v-for, :key).
-        - Navigation par clic sur semestre pour afficher les étudiants (:href ou Vue Router).
-        - Affichage des moyennes calculées dans le tableau (computed).
-        - Methods pour charger semestres et étudiants.
-        - Class binding pour marquer la sélection.
-        - Storage pour sauvegarder l’option ou semestre sélectionné.
+        Frontend : (Luberri)
+        - Créer la page Vue JS pour afficher la liste des semestres.
+        - Ajouter un lien sur chaque semestre pour accéder à la liste des étudiants.
+        - Afficher les colonnes moyennes S1 à S4 pour chaque étudiant.
+        - **Fonctionnalités Vue JS du PDF :**
+            - Utiliser un tableau dynamique pour afficher les semestres (v-for, :key).
+            - Navigation par clic sur semestre pour afficher les étudiants (:href ou Vue Router).
+            - Affichage des moyennes calculées dans le tableau (computed).
+            - Methods pour charger semestres et étudiants.
+            - Class binding pour marquer la sélection.
+            - Storage pour sauvegarder l’option ou semestre sélectionné.
 
 
-    Routing : (Safidy)
-    - GET /etudiants/{semestre}/{option}
-        -> EtudiantController.getEtudiantsBySemestre($semestre, $option)
+        Routing : (Safidy)
+        - GET /etudiants/{semestre}/{option}
+            -> EtudiantController.getEtudiantsBySemestre($semestre, $option)
 
-    Fonctions : (Luberri)
-    - getAllSemestres()
-        -> Retourne la liste des semestres.
-    - getEtudiantsBySemestre($semestre, $option)
-        -> Retourne la liste des étudiants et leurs moyennes S1 à S4.
+        Fonctions : (Luberri)
+        - getAllSemestres()
+            -> Retourne la liste des semestres.
+        - getEtudiantsBySemestre($semestre, $option)
+            -> Retourne la liste des étudiants et leurs moyennes S1 à S4.
 
-    Base : (Safidy)
-    - Etudiant(id, ETU, nom, prenom, dtn, option)
-    - Note(idNote, idAvancement, note, idMatiere)
-    - Credit(idCredit, idMatiere, semestre, credit)
+        Base : (Safidy)
+        - Etudiant(id, ETU, nom, prenom, dtn, option)
+        - Note(idNote, idAvancement, note, idMatiere)
+        - Credit(idCredit, idMatiere, semestre, credit)
 
 En cours 7. Affichage du relevé de notes lors du clic sur une moyenne
 
