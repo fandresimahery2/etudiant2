@@ -5,7 +5,9 @@ export default {
     return {
       notes: [],
       loading: false,
-      error: null
+      error: null,
+      nomEtudiant: null,
+      numeroEtudiant: null
     }
   },
   computed: {
@@ -17,6 +19,13 @@ export default {
     }
   },
   methods: {
+    getResultat(note) {
+      if (note < 10) return 'A journée';
+      if (note < 12) return 'Passable';
+      if (note < 14) return 'Bien';
+      if (note < 16) return 'Assez bien';
+      return 'Très bien';
+    },
     async fetchReleve() {
       const idEtudiant = this.$route.params.idEtudiant;
       const semestre = this.$route.params.semestre;
@@ -34,6 +43,8 @@ export default {
         
         if (data.status === 'success') {
           this.notes = data.data || [];
+          this.nomEtudiant = data.meta?.nomEtudiant;
+          this.numeroEtudiant = data.meta?.numeroEtudiant;
         } else {
           this.error = data.error || 'Erreur inconnue';
         }
@@ -62,6 +73,11 @@ export default {
     
     <h2>Relevé de notes - {{ $route.params.semestre }}</h2>
     
+    <div v-if="nomEtudiant && numeroEtudiant" class="student-info">
+      <p><strong>Étudiant:</strong> {{ nomEtudiant }}</p>
+      <p><strong>Numéro:</strong> {{ numeroEtudiant }}</p>
+    </div>
+    
     <p v-if="loading">Chargement...</p>
     <p v-else-if="error" style="color: red;">{{ error }}</p>
     
@@ -72,6 +88,7 @@ export default {
           <th>Note</th>
           <th>Crédit</th>
           <th>Points</th>
+          <th>Résultat</th>
           <th>Date Session</th>
         </tr>
       </thead>
@@ -81,6 +98,7 @@ export default {
           <td>{{ note.note }}</td>
           <td>{{ note.credit }}</td>
           <td>{{ (note.note * note.credit).toFixed(2) }}</td>
+          <td>{{ getResultat(note.note) }}</td>
           <td>{{ note.dateSession }}</td>
         </tr>
       </tbody>
@@ -119,6 +137,20 @@ export default {
 h2 {
   color: #333;
   margin-bottom: 20px;
+}
+
+.student-info {
+  background-color: #f9f9f9;
+  border-left: 4px solid #4CAF50;
+  padding: 15px;
+  margin-bottom: 20px;
+  border-radius: 4px;
+}
+
+.student-info p {
+  margin: 5px 0;
+  font-size: 16px;
+  color: #333;
 }
 
 table {

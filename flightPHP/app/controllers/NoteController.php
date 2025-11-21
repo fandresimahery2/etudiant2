@@ -32,7 +32,14 @@ class NoteController {
             $notes = $this->model->getNotesByEtudiantAndSemestre($idEtudiant, $semestre, $idOption);
 
             $moyenne = null;
+            $nomEtudiant = null;
+            $numeroEtudiant = null;
+            
             if (!empty($notes)) {
+                // Récupérer le nom et le numéro d'étudiant
+                $nomEtudiant = $notes[0]['nomEtudiant'];
+                $numeroEtudiant = $notes[0]['numeroEtudiant'];
+                
                 $total = 0;
                 $totalCredits = 0;
                 foreach ($notes as $n) {
@@ -42,7 +49,11 @@ class NoteController {
                 $moyenne = $totalCredits > 0 ? round($total / $totalCredits, 2) : null;
             }
 
-            $this->sendResponse('success', $notes, ['moyenne' => $moyenne]);
+            $this->sendResponse('success', $notes, [
+                'moyenne' => $moyenne,
+                'nomEtudiant' => $nomEtudiant,
+                'numeroEtudiant' => $numeroEtudiant
+            ]);
         } catch (\PDOException $e) {
             $this->sendError(500, 'Problème de connexion à la base de données', $e->getMessage());
         } catch (\Exception $e) {
