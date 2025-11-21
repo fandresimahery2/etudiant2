@@ -1,0 +1,168 @@
+TODO List
+
+Fini 1. Déployer l'environnement(Luberri) 
+    - Configurer l'environnement de développement avec Docker.
+    - Déployer les images Docker pour PHP et MySQL.
+    - Vérifier que les conteneurs communiquent correctement.
+
+Fini 2. WS : Notes Semestre
+
+    Postman : (Luberri)
+    - Créer une requête GET /notes/@idEtudiant/@semestre
+
+    Routing : (Safidy)
+    - GET /notes/@idEtudiant/@semestre
+        -> NoteController.getNotesByEtudiantAndSemestre($idEtudiant, $semestre)
+
+    Fonctions (Note) : (Luberri)
+    - getNotesByEtudiantAndSemestre(semestre, idEtudiant) :
+        -> Retourne les notes d'un étudiant pour un semestre.
+        -> Calcule :
+            - moyenne du semestre = Σ(note * crédit) / Σ( crédits du semestre )
+        -> avec gestion erreur
+
+    Base: (Safidy)
+    - Note(idNote, idAvancement, note, idMatiere)
+    - Avancement(idAvancement, idEtudiant, semestre, idSession)
+    - Matiere(idMatiere, nom, UE)
+    - Credit(idCredit, idMatiere, semestre, credit)
+
+Fini 3. WS : Notes Annuel 
+
+    Postman : (Safidy)
+    - Créer une requête GET /notes/annee/{idannee}/{idEtudiant}
+
+    Routing : (Luberri)
+    - GET /notes/annee/{idannee}/{idEtudiant}
+        -> NoteController.getNotesAnneeL1ByEtudiant(idEtudiant)
+
+    Fonctions: (Safidy)
+    - getNotesAnnuelByEtudiant($idEtudiant, $annee):
+        -> Même résultat mais pour 1 seul étudiant.
+        -> avec gestion erreur
+        -> avec moyenne dans meta
+
+    Base : (Luberri)
+    - Note(idNote, idAvancement, note, idMatiere)
+    - Avancement(idAvancement, idEtudiant, semestre, idSession)
+    - Matiere(idMatiere, nom, UE)
+    - Credit(idCredit, idMatiere, semestre, credit)
+    - Etudiant(id, ETU, nom, prenom, dtn)
+
+En cours 4. Authentification avec login et token
+
+    Postman : (Luberri)
+    - Créer une requête POST /login avec les champs email et mot de passe.
+    - Tester la génération et la validation du token.
+
+    Routing : (Safidy)
+    - POST /login
+        -> AuthController.login($email, $password)
+    - Middleware pour vérifier le token sur les routes protégées.
+
+    Fonctions : (Luberri)
+    - login($email, $password) :
+        -> Vérifie les identifiants de l'utilisateur.
+        -> Génère un token JWT si les identifiants sont valides.
+    - validateToken($token) :
+        -> Vérifie la validité du token pour les requêtes protégées.
+
+    Base : (Safidy)
+    - User(id, email, password_hash, role)
+
+Fini 5. Configuration de Postman
+
+    Postman : (Luberri)
+    - Créer une collection Postman pour regrouper toutes les requêtes.
+    - Ajouter des variables d'environnement (ex. base_url, token).
+    
+    Routing : (Safidy)
+    - Configurer les tests automatiques pour vérifier les réponses (status, data, error).
+    
+    Fonctions : (Luberri)
+    - Documenter chaque endpoint avec des exemples de requêtes et de réponses.
+    
+    Base : (Safidy)
+    - Vérifier la cohérence des données retournées par chaque endpoint.
+
+
+
+En cours 6. Liste des semestres avec lien vers liste des étudiants (moyennes S1 à S4)
+
+    Frontend : (Luberri)
+    - Créer la page Vue JS pour afficher la liste des semestres.
+    - Ajouter un lien sur chaque semestre pour accéder à la liste des étudiants.
+    - Afficher les colonnes moyennes S1 à S4 pour chaque étudiant.
+    - **Fonctionnalités Vue JS du PDF :**
+        - Utiliser un tableau dynamique pour afficher les semestres.
+        - Navigation par clic sur semestre pour afficher les étudiants.
+        - Affichage des moyennes calculées dans le tableau.
+
+    Routing : (Safidy)
+    - GET /semestres
+        -> SemestreController.getAllSemestres()
+    - GET /etudiants/{semestre}/{option}
+        -> EtudiantController.getEtudiantsBySemestre($semestre, $option)
+
+    Fonctions : (Luberri)
+    - getAllSemestres()
+        -> Retourne la liste des semestres.
+    - getEtudiantsBySemestre($semestre, $option)
+        -> Retourne la liste des étudiants et leurs moyennes S1 à S4.
+
+    Base : (Safidy)
+    - Semestre(id, nom)
+    - Etudiant(id, ETU, nom, prenom, dtn, option)
+    - Note(idNote, idAvancement, note, idMatiere)
+    - Credit(idCredit, idMatiere, semestre, credit)
+
+En cours 7. Affichage du relevé de notes lors du clic sur une moyenne
+
+    Frontend : (Luberri)
+    - Ajouter une action sur la moyenne pour afficher le relevé de notes du semestre sélectionné.
+    - Créer le composant Vue JS pour afficher le relevé de notes.
+    - **Fonctionnalités Vue JS du PDF :**
+        - Affichage du relevé dans une modale ou une nouvelle page.
+        - Utiliser un tableau pour afficher les matières, notes et crédits du semestre.
+
+    Routing : (Safidy)
+    - GET /notes/{idEtudiant}/{semestre}/{option}
+        -> NoteController.getNotesByEtudiantAndSemestre($idEtudiant, $semestre, $option)
+
+    Fonctions : (Luberri)
+    - getNotesByEtudiantAndSemestre($idEtudiant, $semestre, $option)
+        -> Retourne le relevé de notes de l’étudiant pour le semestre et l’option.
+
+    Base : (Safidy)
+    - Note(idNote, idAvancement, note, idMatiere)
+    - Matiere(idMatiere, nom, UE)
+    - Credit(idCredit, idMatiere, semestre, credit)
+
+En cours 8. Affichage des infos étudiant et tableau des moyennes S1 à S4 + liens L1/L2
+
+    Frontend : (Luberri)
+    - Créer la page Vue JS pour afficher les infos détaillées de l’étudiant.
+    - Afficher le tableau des moyennes S1 à S4 en bas de la page.
+    - Ajouter les liens L1 et L2 pour afficher les notes annuelles (S1+S2 et S3+S4).
+    - **Fonctionnalités Vue JS du PDF :**
+        - Affichage des infos dans une fiche détaillée.
+        - Tableau récapitulatif des moyennes S1 à S4.
+        - Liens dynamiques pour afficher les notes L1 et L2.
+
+    Routing : (Safidy)
+    - GET /etudiant/{idEtudiant}
+        -> EtudiantController.getInfosEtudiant($idEtudiant)
+    - GET /notes/annuel/{idEtudiant}/{annee}/{option}
+        -> NoteController.getReleveNotesAnnuel($idEtudiant, $annee, $option)
+
+    Fonctions : (Luberri)
+    - getInfosEtudiant($idEtudiant)
+        -> Retourne les infos détaillées de l’étudiant.
+    - getReleveNotesAnnuel($idEtudiant, $annee, $option)
+        -> Retourne les notes S1+S2 (L1) et S3+S4 (L2) pour l’étudiant.
+
+    Base : (Safidy)
+    - Etudiant(id, ETU, nom, prenom, dtn, option)
+    - Note(idNote, idAvancement, note, idMatiere)
+    - Avancement(idAvancement, idEtudiant, semestre, idSession)
+    - Credit(idCredit, idMatiere, semestre, credit)
