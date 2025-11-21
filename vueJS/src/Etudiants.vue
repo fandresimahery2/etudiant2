@@ -1,37 +1,3 @@
-<template>
-  <div>
-    <h2>Liste des étudiants</h2>
-    
-    <!-- Message de chargement -->
-    <p v-if="loading">Chargement...</p>
-    
-    <!-- Message d'erreur -->
-    <p v-else-if="error" style="color: red;">{{ error }}</p>
-    
-    <!-- Tableau des étudiants -->
-    <table v-else-if="etudiants.length > 0">
-      <thead>
-        <tr>
-          <th>ETU</th>
-          <th>Nom</th>
-          <th>Prénom</th>
-          <th>Date de naissance</th>
-        </tr>
-      </thead>
-      <tbody>
-        <tr v-for="etudiant in etudiants" :key="etudiant.id">
-          <td>{{ etudiant.ETU }}</td>
-          <td>{{ etudiant.nom }}</td>
-          <td>{{ etudiant.prenom }}</td>
-          <td>{{ etudiant.dtn }}</td>
-        </tr>
-      </tbody>
-    </table>
-    
-    <!-- Message si aucun étudiant -->
-    <p v-else>Aucun étudiant trouvé.</p>
-  </div>
-</template>
 
 <script>
 export default {
@@ -43,57 +9,62 @@ export default {
       error: null
     }
   },
-  async created() {
-    try {
-      const response = await fetch('http://localhost:8000/etudiants');
-      
-      if (!response.ok) {
-        throw new Error(`HTTP error! status: ${response.status}`);
+  methods: {
+    async loadEtudiants() {
+      this.loading = true;
+      this.error = null;
+      try {
+        // Récupère tous les étudiants
+        const res = await fetch('http://localhost:8080/etudiants');
+        const json = await res.json();
+        const etudiants = json.data || [];
+        const semestre = this.$route.params.semestre;
+        const option = this.$route.params.option;
+
+        // Pour chaque étudiant, récupère la moyenne du semestre/option
+        for (const etu of etudiants) {
+          const notesRes = await fetch(`http://localhost:8080/notes/${etu.id}/${semestre}/${option}`);
+          const notesData = await notesRes.json();
+          etu.moyenne = notesData.meta?.moyenne ?? null;
+        }
+        this.etudiants = etudiants;
+      } catch (error) {
+        this.error = error.message;
+      } finally {
+        this.loading = false;
       }
-      
-      const text = await response.text();
-      const data = JSON.parse(text);
-      
-      // Stocker les données dans la propriété etudiants
-      if (data.status === 'success') {
-        this.etudiants = data.data;
-      } else {
-        this.error = data.error || 'Erreur inconnue';
-      }
-      
-    } catch (error) {
-      console.error('Erreur détaillée:', error);
-      this.error = error.message;
-    } finally {
-      this.loading = false;
     }
+  },
+  created() {
+    this.loadEtudiants();
+  },
+  watch: {
+    '$route.params': 'loadEtudiants'
   }
 }
 </script>
-
-<style scoped>
-table {
-  width: 100%;
-  border-collapse: collapse;
-  margin-top: 20px;
-}
-
-th, td {
-  border: 1px solid #ddd;
-  padding: 8px;
-  text-align: left;
-}
-
-th {
-  background-color: #4CAF50;
-  color: white;
-}
-
-tr:nth-child(even) {
-  background-color: #f2f2f2;
-}
-
-tr:hover {
-  background-color: #ddd;
-}
-</style>
+<template>
+  <div>
+    <h2>Étudiants du {{ $route.params.semestre }} (Option {{ $route.params.option }})</h2>
+    <table>
+      <thead>
+        <tr>
+          <th>ETU</th>
+          <th>Nom</th>
+          <th>Prénom</th>
+          <th>Date de naissance</th>
+          <th>Moyenne</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr v-for="etudiant in etudiants" :key="etudiant.id">
+          <td>{{ etudiant.ETU }}</td>
+          <td>{{ etudiant.nom }}</td>
+          <td>{{ etudiant.prenom }}</td>
+          <td>{{ etudiant.dtn }}</td>
+          <td>{{ etudiant.moyenne ?? '-' }}</td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+</template>
