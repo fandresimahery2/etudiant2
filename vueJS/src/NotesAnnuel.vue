@@ -51,6 +51,7 @@ export default {
           <strong>Année:</strong>
           <span>{{ $route.params.annee === '1' ? 'L1' : 'L2' }}</span>
         </div>
+        <p>Année : {{ $route.params.annee === '1' ? 'L1' : 'L2' }}</p>
       </div>
       <table v-if="notes.length">
         <thead>
@@ -72,7 +73,7 @@ export default {
           </tr>
         </tbody>
       </table>
-      <p v-if="moyenne !== null"><strong>Moyenne annuelle :</strong> {{ moyenne }}</p>
+      <p class="moyenne-label" v-if="moyenne !== null"><strong>Moyenne annuelle :</strong> {{ moyenne }}</p>
       <p v-else>Chargement...</p>
     </div>
 </template>
@@ -128,43 +129,44 @@ h2 {
   text-align: center;
 }
 
+/* Table plus classique */
 table {
   width: 100%;
   border-collapse: collapse;
   margin: 1.5rem 0;
-  background: #e8fbe6;
-  box-shadow: 0 2px 8px rgba(76, 175, 80, 0.08);
-  border-radius: 12px;
+  background: #fff;
+  border: 1px solid #4caf50;
+  border-radius: 6px;
   overflow: hidden;
 }
 
 th, td {
-  padding: 1rem;
+  padding: 0.9rem 1rem;
   text-align: center;
-  border-bottom: 1px solid #c8e6c9;
-  font-size: 1.05rem;
+  border: 1px solid #4caf50; /* bordure simple */
+  font-size: 1rem;
 }
 
 th {
-  background: #4caf50;
-  color: #fff;
   font-weight: 600;
-  letter-spacing: 1px;
+  color: #fff;
+  background-color: #4caf50; /* en-tête en vert */
 }
 
-tr:last-child td {
-  border-bottom: none;
+tr:nth-child(even) {
+  background-color: #f1fdf3; /* lignes alternées très légères */
 }
 
 tr:hover td {
-  background: #d0f5d6;
+  background-color: #e0f7e9; /* hover léger */
   transition: background 0.2s;
 }
 
+/* Moyenne bien visible */
 .moyenne-label {
-  font-size: 1.15rem;
-  color: #388e3c;
-  font-weight: 600;
+  font-size: 1.4rem;
+  color: #4caf50;
+  font-weight: 700;
   margin-top: 1.5rem;
   text-align: right;
 }

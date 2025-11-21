@@ -27,32 +27,30 @@ export default {
       if (moy < 14) return 'Bien';
       if (moy < 16) return 'Assez bien';
       return 'Très bien';
+    },
+    mentionClass() {
+      const moy = parseFloat(this.moyenne);
+      if (isNaN(moy)) return '';
+      if (moy < 10) return 'fail';
+      if (moy < 12) return 'passable';
+      if (moy < 14) return 'bien';
+      if (moy < 16) return 'assez-bien';
+      return 'tres-bien';
     }
   },
   methods: {
     async fetchReleve() {
-      const idEtudiant = this.$route.params.idEtudiant;
-      const semestre = this.$route.params.semestre;
-      const option = this.$route.params.option;
-      
+      const { idEtudiant, semestre, option } = this.$route.params;
       if (!idEtudiant || !semestre || !option) return;
-      
+
       this.loading = true;
-      this.error = null;
       try {
-        const response = await fetch(
-          `http://localhost:8080/notes/${idEtudiant}/${semestre}/${option}`
-        );
-        const data = await response.json();
-        
-        if (data.status === 'success') {
-          this.notes = data.data || [];
-          this.optionNom = this.notes.length > 0 ? this.notes[0].optionNom : null;
-        } else {
-          this.error = data.error || 'Erreur inconnue';
-        }
-      } catch (error) {
-        this.error = error.message;
+        const res = await fetch(`http://localhost:8080/notes/${idEtudiant}/${semestre}/${option}`);
+        const data = await res.json();
+        this.notes = data.data || [];
+        this.optionNom = this.notes.length > 0 ? this.notes[0].optionNom : option;
+      } catch (err) {
+        this.error = err.message;
       } finally {
         this.loading = false;
       }
@@ -71,128 +69,208 @@ export default {
 </script>
 
 <template>
-  <div class="releve-container">
+  <div class="container">
     <button @click="goBack" class="btn-back">← Retour</button>
     
-    <h2>Relevé de notes - {{ $route.params.semestre }} </h2><h2> Option : {{ optionNom }}</h2>
-    
-    <p v-if="loading">Chargement...</p>
-    <p v-else-if="error" style="color: red;">{{ error }}</p>
-    
-    <table v-else-if="notes.length > 0">
-      <thead>
-        <tr>
-          <th>Matière</th>
-          <th>Note</th>
-          <th>Crédit</th>
-          <th>Points</th>
-          <th>Date Session</th>
-        </tr>
-      </thead>
-      <tbody>
-        <tr v-for="note in notes" :key="note.idNote">
-          <td>{{ note.matiere }}</td>
-          <td>{{ note.note }}</td>
-          <td>{{ note.credit }}</td>
-          <td>{{ (note.note * note.credit).toFixed(2) }}</td>
-          <td>{{ note.dateSession }}</td>
-        </tr>
-      </tbody>
-    </table>
-    
-    <div v-else>Aucune note trouvée.</div>
-    
-    <div class="footer" v-if="notes.length > 0">
-      <div class="summary">
-        <div class="summary-item">
-          <strong>Crédits:</strong> {{ totalCredits }}
-        </div>
-        <div class="summary-item">
-          <strong>Moyenne:</strong> {{ moyenne }}
-        </div>
-        <div class="summary-item">
-          <strong>Mention:</strong> {{ mention }}
+    <h1 class="title">Relevé de notes - {{ $route.params.semestre }} - Option : {{ optionNom }}</h1>
+
+    <div v-if="loading" class="loading-card">
+      <div class="spinner"></div>
+      <p>Chargement des notes...</p>
+    </div>
+
+    <div v-else-if="notes.length > 0" class="content">
+      <div class="card">
+        <div class="card-header"><h2>Notes</h2></div>
+        <div class="card-body">
+          <table>
+            <thead>
+              <tr>
+                <th>Matière</th>
+                <th>Note</th>
+                <th>Crédit</th>
+                <th>Points</th>
+                <th>Date Session</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr v-for="note in notes" :key="note.idNote">
+                <td>{{ note.matiere }}</td>
+                <td>{{ note.note }}</td>
+                <td>{{ note.credit }}</td>
+                <td>{{ (note.note * note.credit).toFixed(2) }}</td>
+                <td>{{ note.dateSession ?? '-' }}</td>
+              </tr>
+            </tbody>
+          </table>
         </div>
       </div>
+
+      <div class="footer">
+        <div class="summary-item credits">
+          <strong>Crédits</strong>
+          <span>{{ totalCredits }}</span>
+        </div>
+        <div class="summary-item moyenne">
+          <strong>Moyenne</strong>
+          <span>{{ moyenne }}</span>
+        </div>
+        <div class="summary-item mention" :class="mentionClass">
+          <strong>Mention</strong>
+          <span>{{ mention }}</span>
+        </div>
+      </div>
+    </div>
+
+    <div v-else class="error-card">
+      <p>Aucune note trouvée pour cet étudiant.</p>
     </div>
   </div>
 </template>
 
+
 <style scoped>
-.releve-container {
-  max-width: 1000px;
+.container {
+  max-width: 1100px;
   margin: 0 auto;
-  padding: 20px;
+  padding: 2rem;
+  font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Arial, sans-serif;
+  background: #f9f9f9;
+  border-radius: 12px;
+  min-height: 100vh;
 }
 
 .btn-back {
-  background-color: #4CAF50;
+  background-color: #4caf50;
   color: white;
-  padding: 8px 15px;
+  padding: 10px 18px;
   border: none;
-  border-radius: 4px;
+  border-radius: 6px;
   cursor: pointer;
   margin-bottom: 20px;
-  font-size: 14px;
+  font-size: 16px;
+  transition: all 0.3s ease;
 }
 
-.btn-back:hover {
-  background-color: #45a049;
-}
+.btn-back:hover { background-color: #45a049; }
 
-h2 {
+.title {
+  font-size: 2rem;
+  font-weight: 700;
+  text-align: center;
+  margin-bottom: 2rem;
   color: #333;
-  margin-bottom: 20px;
 }
+
+.card {
+  background: #fff;
+  border-radius: 12px;
+  box-shadow: 0 6px 16px rgba(0,0,0,0.08);
+  margin-bottom: 1.5rem;
+  overflow: hidden;
+  border: 1px solid #e0e0e0;
+}
+
+.card-header {
+  background: #fff;
+  padding: 1rem 1.5rem;
+  border-bottom: 2px solid #4caf50;
+}
+
+.card-header h2 { margin: 0; font-size: 1.3rem; font-weight: 600; }
+
+.card-body { padding: 1.5rem; }
 
 table {
   width: 100%;
-  border-collapse: collapse;
-  margin: 15px 0;
+  border-collapse: separate;
+  border-spacing: 0;
+  border-radius: 8px;
+  overflow: hidden;
 }
 
 th, td {
-  border: 1px solid #ddd;
-  padding: 12px;
-  text-align: left;
+  padding: 14px;
+  text-align: center;
+  border-bottom: 1px solid #c8e6c9;
+  font-size: 1.1rem;
 }
 
 th {
-  background-color: #4CAF50;
-  color: white;
+  background-color: #4caf50;
+  color: #fff;
+  font-weight: 600;
 }
 
-tr:nth-child(even) {
-  background-color: #f2f2f2;
-}
+tr:nth-child(even) td { background-color: #f1fdf3; }
 
-tr:hover {
-  background-color: #ddd;
-}
+tr:hover td { background-color: #e0f7e9; }
 
+td:nth-child(4) { font-weight: 600; color: #388e3c; }
+
+/* Footer */
 .footer {
-  text-align: right;
-  margin-top: 20px;
-  padding-top: 20px;
-  border-top: 2px solid #ddd;
-  font-size: 18px;
-}
-
-.summary {
   display: flex;
   justify-content: flex-end;
   gap: 40px;
-  padding: 15px 0;
+  margin-top: 30px;
 }
 
 .summary-item {
   display: flex;
   flex-direction: column;
-  align-items: flex-end;
+  align-items: center;
+  padding: 12px 18px;
+  border-radius: 10px;
+  min-width: 120px;
+  font-weight: 600;
 }
 
-.summary-item strong {
-  color: #333;
-  margin-bottom: 5px;
+.summary-item.credits { background: #e8f5e9; color: #388e3c; }
+.summary-item.moyenne { background: #4caf50; color: #fff; }
+.summary-item.mention.fail { background: #f44336; color: #fff; }
+.summary-item.mention.passable { background: #ff9800; color: #fff; }
+.summary-item.mention.bien { background: #64b5f6; color: #fff; }
+.summary-item.mention.assez-bien { background: #aed581; color: #fff; }
+.summary-item.mention.tres-bien { background: #388e3c; color: #fff; }
+
+/* Loading */
+.loading-card {
+  text-align: center;
+  padding: 3rem;
+  background: #fff;
+  border-radius: 12px;
+  box-shadow: 0 6px 16px rgba(0,0,0,0.08);
+}
+
+.spinner {
+  width: 50px;
+  height: 50px;
+  border: 4px solid #e0e0e0;
+  border-top-color: #4caf50;
+  border-radius: 50%;
+  margin: 0 auto 1rem;
+  animation: spin 1s linear infinite;
+}
+
+@keyframes spin { to { transform: rotate(360deg); } }
+
+.error-card {
+  text-align: center;
+  padding: 3rem;
+  background: #fff;
+  border-radius: 12px;
+  border: 2px solid #f44336;
+  color: #f44336;
+  font-weight: 600;
+  font-size: 1.1rem;
+}
+
+/* Responsive */
+@media (max-width: 900px) {
+  .container { padding: 1rem; }
+  table th, table td { padding: 10px; font-size: 1rem; }
+  .footer { flex-direction: column; gap: 20px; }
+  .summary-item { min-width: 100%; }
 }
 </style>
