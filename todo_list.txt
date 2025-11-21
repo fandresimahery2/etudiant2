@@ -94,13 +94,15 @@ En cours 6. Liste des semestres avec lien vers liste des étudiants (moyennes S1
     - Ajouter un lien sur chaque semestre pour accéder à la liste des étudiants.
     - Afficher les colonnes moyennes S1 à S4 pour chaque étudiant.
     - **Fonctionnalités Vue JS du PDF :**
-        - Utiliser un tableau dynamique pour afficher les semestres.
-        - Navigation par clic sur semestre pour afficher les étudiants.
-        - Affichage des moyennes calculées dans le tableau.
+        - Utiliser un tableau dynamique pour afficher les semestres (v-for, :key).
+        - Navigation par clic sur semestre pour afficher les étudiants (:href ou Vue Router).
+        - Affichage des moyennes calculées dans le tableau (computed).
+        - Methods pour charger semestres et étudiants.
+        - Class binding pour marquer la sélection.
+        - Storage pour sauvegarder l’option ou semestre sélectionné.
+
 
     Routing : (Safidy)
-    - GET /semestres
-        -> SemestreController.getAllSemestres()
     - GET /etudiants/{semestre}/{option}
         -> EtudiantController.getEtudiantsBySemestre($semestre, $option)
 
@@ -111,7 +113,6 @@ En cours 6. Liste des semestres avec lien vers liste des étudiants (moyennes S1
         -> Retourne la liste des étudiants et leurs moyennes S1 à S4.
 
     Base : (Safidy)
-    - Semestre(id, nom)
     - Etudiant(id, ETU, nom, prenom, dtn, option)
     - Note(idNote, idAvancement, note, idMatiere)
     - Credit(idCredit, idMatiere, semestre, credit)
@@ -121,9 +122,12 @@ En cours 7. Affichage du relevé de notes lors du clic sur une moyenne
     Frontend : (Luberri)
     - Ajouter une action sur la moyenne pour afficher le relevé de notes du semestre sélectionné.
     - Créer le composant Vue JS pour afficher le relevé de notes.
-    - **Fonctionnalités Vue JS du PDF :**
-        - Affichage du relevé dans une modale ou une nouvelle page.
-        - Utiliser un tableau pour afficher les matières, notes et crédits du semestre.
+    - Fonctionnalités Vue JS :
+        - Affichage du relevé dans une modale ou une nouvelle page (Teleport, Transition).
+        - Utiliser un tableau pour afficher les matières, notes et crédits du semestre (v-for).
+        - Fetch pour récupérer les relevés depuis l’API.
+        - Computed pour calculer les moyennes.
+        - Watcher pour recharger les données si le semestre ou l’étudiant change.
 
     Routing : (Safidy)
     - GET /notes/{idEtudiant}/{semestre}/{option}
@@ -144,10 +148,13 @@ En cours 8. Affichage des infos étudiant et tableau des moyennes S1 à S4 + lie
     - Créer la page Vue JS pour afficher les infos détaillées de l’étudiant.
     - Afficher le tableau des moyennes S1 à S4 en bas de la page.
     - Ajouter les liens L1 et L2 pour afficher les notes annuelles (S1+S2 et S3+S4).
-    - **Fonctionnalités Vue JS du PDF :**
-        - Affichage des infos dans une fiche détaillée.
-        - Tableau récapitulatif des moyennes S1 à S4.
-        - Liens dynamiques pour afficher les notes L1 et L2.
+    - Fonctionnalités Vue JS :
+        - Affichage des infos dans une fiche détaillée (Sous-components, Props).
+        - Tableau récapitulatif des moyennes S1 à S4 (TableMoyennes.vue).
+        - Liens dynamiques pour afficher les notes L1 et L2 (Slot, Router).
+        - Provide/Inject pour partager la sélection.
+        - Keep-alive pour optimiser la navigation.
+
 
     Routing : (Safidy)
     - GET /etudiant/{idEtudiant}

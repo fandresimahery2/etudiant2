@@ -1,6 +1,17 @@
-import './assets/main.css'
-
 import { createApp } from 'vue'
-import Products from './Products.vue'
+import { createRouter, createWebHistory } from 'vue-router'
+import App from './App.vue'
+import Semestres from './Semestres.vue'
+import Etudiants from './Etudiants.vue'
 
-createApp(Products).mount('#app')
+const routes = [
+  { path: '/', component: Semestres },
+  { name: 'Etudiants', path: '/etudiants/:semestre/:option', component: Etudiants }
+]
+
+const router = createRouter({
+  history: createWebHistory(),
+  routes
+})
+
+createApp(App).use(router).mount('#app')
