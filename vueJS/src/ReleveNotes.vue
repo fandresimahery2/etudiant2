@@ -80,6 +80,16 @@ export default {
     </div>
 
     <div v-else-if="notes.length > 0" class="content">
+      <div class="etudiant-info" v-if="notes.length > 0">
+        <div>
+          <strong>ETU:</strong>
+          <span>{{ notes[0].numeroEtudiant ?? '-' }}</span>
+        </div>
+        <div>
+          <strong>Nom:</strong>
+          <span>{{ notes[0].nomEtudiant ?? '-' }}</span>
+        </div>
+      </div>
       <div class="card">
         <div class="card-header"><h2>Notes</h2></div>
         <div class="card-body">
@@ -272,5 +282,35 @@ td:nth-child(4) { font-weight: 600; color: #388e3c; }
   table th, table td { padding: 10px; font-size: 1rem; }
   .footer { flex-direction: column; gap: 20px; }
   .summary-item { min-width: 100%; }
+}
+
+.etudiant-info {
+  display: flex;
+  gap: 2rem;
+  background: #e8fbe6;
+  border: 2px solid #4caf50;
+  border-radius: 12px;
+  padding: 1.2rem 2rem;
+  margin-bottom: 2rem;
+  box-shadow: 0 2px 8px rgba(76, 175, 80, 0.08);
+  align-items: center;
+}
+
+.etudiant-info strong {
+  color: #388e3c;
+  font-size: 1.08rem;
+  font-weight: 700;
+  margin-right: 0.5rem;
+}
+
+.etudiant-info span {
+  color: #222;
+  font-size: 1.15rem;
+  font-weight: 600;
+  background: #fff;
+  padding: 0.3rem 0.8rem;
+  border-radius: 8px;
+  box-shadow: 0 1px 4px rgba(76,175,80,0.07);
+  border: 1px solid #c8e6c9;
 }
 </style>
