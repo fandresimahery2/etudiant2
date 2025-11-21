@@ -139,7 +139,7 @@ export default {
 }
 
 .card-header {
-  background: linear-gradient(135deg, #8bc34a 0%, #9ccc65 100%);
+  background: linear-gradient(135deg, #4caf50 0%, #9ccc65 100%);
   padding: 1.5rem;
   border-bottom: 2px solid #7cb342;
 }
@@ -194,7 +194,7 @@ export default {
 
 .option-active .option-content {
   background: linear-gradient(135deg, #e8f5e9 0%, #c5e1a5 100%);
-  border-color: #8bc34a;
+  border-color: #4caf50;
   box-shadow: 0 4px 8px rgba(139, 195, 74, 0.2);
 }
 
@@ -239,7 +239,7 @@ export default {
   left: 0;
   width: 4px;
   height: 100%;
-  background: #8bc34a;
+  background: #4caf50;
   transform: scaleY(0);
   transition: transform 0.3s ease;
 }
@@ -256,7 +256,7 @@ export default {
 
 .semestre-active {
   background: linear-gradient(135deg, #e8f5e9 0%, #c5e1a5 100%);
-  border-color: #8bc34a;
+  border-color: #4caf50;
   box-shadow: 0 4px 8px rgba(139, 195, 74, 0.2);
 }
 
@@ -270,7 +270,7 @@ export default {
   justify-content: center;
   width: 60px;
   height: 60px;
-  background: linear-gradient(135deg, #8bc34a 0%, #9ccc65 100%);
+  background: linear-gradient(135deg, #4caf50 0%, #9ccc65 100%);
   border-radius: 12px;
   color: white;
   font-size: 1.4rem;
@@ -287,7 +287,7 @@ export default {
 
 .semestre-arrow {
   font-size: 1.5rem;
-  color: #8bc34a;
+  color: #4caf50;
   transition: transform 0.3s ease;
 }
 

@@ -48,7 +48,7 @@ export default {
       const response = await fetch('http://localhost:8000/notes');
       
       if (!response.ok) {
-        throw new Error(`HTTP error! status: ${response.status}`);
+        throw new Error(`HTTP erro  r! status: ${response.status}`);
       }
       
       const text = await response.text();

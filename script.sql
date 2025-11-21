@@ -84,11 +84,12 @@ CREATE TABLE rattrapage (
     FOREIGN KEY (idMatiere) REFERENCES matiere(idMatiere)
 );
 INSERT INTO etudiant (ETU, nom, prenom, dtn) VALUES
-('ETU001', 'Rakoto', 'Jean', '2002-01-15'),
-('ETU002', 'Randria', 'Miora', '2001-11-02'),
-('ETU003', 'Rasolo', 'Kevin', '2002-05-20'),
-('ETU004', 'Andriam', 'Fara', '2003-03-30'),
-('ETU005', 'Rakotondr', 'Tiana', '2002-07-12');
+('ETU001', 'RAKOTO', 'Jean', '2002-01-15'),
+('ETU002', 'RANDRIA', 'Miora', '2001-11-02'),
+('ETU003', 'RASOLO', 'Kevin', '2002-05-20'),
+('ETU004', 'ANDRIAM', 'Fara', '2003-03-30'),
+('ETU005', 'RAKOTONDR', 'Tiana', '2002-07-12');
+
 INSERT INTO filiere (nom) VALUES ('Informatique');
 
 INSERT INTO promotion (idFiliere) VALUES (1);

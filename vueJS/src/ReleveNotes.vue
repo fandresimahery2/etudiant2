@@ -313,4 +313,8 @@ td:nth-child(4) { font-weight: 600; color: #388e3c; }
   box-shadow: 0 1px 4px rgba(76,175,80,0.07);
   border: 1px solid #c8e6c9;
 }
+table td:first-child,
+table th:first-child {
+  text-align: left !important;
+}
 </style>
