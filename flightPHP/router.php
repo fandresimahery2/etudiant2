@@ -10,5 +10,4 @@ if (php_sapi_name() == 'cli-server') {
     }
 }
 
-// Sinon, tout passer à index.php
 require_once __DIR__ . '/index.php';

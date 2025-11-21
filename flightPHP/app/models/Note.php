@@ -28,12 +28,17 @@ class Note {
                     m.nom AS matiere,
                     c.credit,
                     o.nom AS optionNom,
-                    a.semestre
+                    a.semestre,
+                    s.date AS dateSession,
+                    e.nom AS nomEtudiant,
+                    e.ETU AS numeroEtudiant
                 FROM note n
                 JOIN avancement a ON n.idAvancement = a.idAvancement
+                JOIN session s ON a.idSession = s.idSession
                 JOIN matiere m ON n.idMatiere = m.idMatiere
                 JOIN credit c ON m.idMatiere = c.idMatiere
                 JOIN option_ o ON c.idOption = o.idOption
+                JOIN etudiant e ON a.idEtudiant = e.id
                 WHERE a.idEtudiant = :idEtudiant
                   AND a.semestre = :semestre";
     
@@ -104,12 +109,15 @@ class Note {
                     m.nom AS matiere,
                     c.credit,
                     a.semestre,
-                    o.nom AS optionNom
+                    o.nom AS optionNom,
+                    e.nom AS nomEtudiant,
+                    e.ETU AS numeroEtudiant
                 FROM note n
                 JOIN avancement a ON n.idAvancement = a.idAvancement
                 JOIN matiere m ON n.idMatiere = m.idMatiere
                 JOIN credit c ON m.idMatiere = c.idMatiere
                 JOIN option_ o ON c.idOption = o.idOption
+                JOIN etudiant e ON a.idEtudiant = e.id
                 WHERE a.idEtudiant = ?
                   AND c.idOption = ?
                   AND a.semestre IN ($in)
