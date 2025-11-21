@@ -16,14 +16,19 @@ class Etudiant {
         return $stmt->fetchAll(PDO::FETCH_ASSOC);
     }
 
-    // Récupérer un étudiant par son ID
     public function getById($id) {
-        $stmt = $this->db->prepare("SELECT * FROM etudiant WHERE id = ?");
+        $stmt = $this->db->prepare("
+            SELECT e.*, i.DateInscription, i.semestre, i.idPromo
+            FROM etudiant e
+            LEFT JOIN inscription i ON e.id = i.idEtudiant
+            WHERE e.id = ?
+            ORDER BY i.DateInscription DESC
+            LIMIT 1
+        ");
         $stmt->execute([$id]);
         return $stmt->fetch(PDO::FETCH_ASSOC);
     }
 
-    // Créer un étudiant
     public function create($data) {
         $stmt = $this->db->prepare("
             INSERT INTO etudiant (ETU, nom, prenom, dtn)

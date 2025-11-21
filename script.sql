@@ -287,3 +287,268 @@ INSERT INTO note (idAvancement, idMatiere, note) VALUES
 (14, 25, 12.5),
 (14, 26, 14.0),
 (14, 27, 13.5);
+
+
+
+
+-- Ajout des deux nouvelles options
+INSERT INTO option_ (nom) VALUES 
+('Web'),
+('Réseaux');
+
+INSERT INTO credit (idMatiere, idOption, semestre, credit) VALUES
+-- Option Web (idOption = 2)
+(1, 2, 'S1', 7),
+(2, 2, 'S1', 5),
+(3, 2, 'S1', 4),
+(4, 2, 'S1', 4),
+(5, 2, 'S1', 6),
+(6, 2, 'S1', 4),
+-- Option Réseaux (idOption = 3)
+(1, 3, 'S1', 7),
+(2, 3, 'S1', 5),
+(3, 3, 'S1', 4),
+(4, 3, 'S1', 4),
+(5, 3, 'S1', 6),
+(6, 3, 'S1', 4);
+
+-- SEMESTRE 2 : Même pour toutes les options (tronc commun)
+INSERT INTO credit (idMatiere, idOption, semestre, credit) VALUES
+-- Option Web (idOption = 2)
+(7, 2, 'S2', 5),
+(8, 2, 'S2', 5),
+(9, 2, 'S2', 4),
+(10, 2, 'S2', 6),
+(11, 2, 'S2', 6),
+(12, 2, 'S2', 4),
+-- Option Réseaux (idOption = 3)
+(7, 3, 'S2', 5),
+(8, 3, 'S2', 5),
+(9, 3, 'S2', 4),
+(10, 3, 'S2', 6),
+(11, 3, 'S2', 6),
+(12, 3, 'S2', 4);
+
+-- SEMESTRE 3 : Même pour toutes les options (tronc commun)
+INSERT INTO credit (idMatiere, idOption, semestre, credit) VALUES
+-- Option Web (idOption = 2)
+(13, 2, 'S3', 6),
+(14, 2, 'S3', 6),
+(15, 2, 'S3', 4),
+(16, 2, 'S3', 6),
+(17, 2, 'S3', 4),
+(18, 2, 'S3', 4),
+-- Option Réseaux (idOption = 3)
+(13, 3, 'S3', 6),
+(14, 3, 'S3', 6),
+(15, 3, 'S3', 4),
+(16, 3, 'S3', 6),
+(17, 3, 'S3', 4),
+(18, 3, 'S3', 4);
+
+-- SEMESTRE 4 : Matières spécifiques par option
+
+-- ===== OPTION WEB =====
+INSERT INTO matiere (nom, UE) VALUES
+('INF211 : Développement Web Full Stack', 'INF211'),
+('INF212 : Frameworks JavaScript', 'INF212'),
+('INF213 : Design UI/UX', 'INF213'),
+('INF214 : Sécurité Web', 'INF214'),
+('INF215 : Mini-projet Web', 'INF215'),
+('MTH207 : Statistiques Web', 'MTH207'),
+('INF216 : API REST et GraphQL', 'INF216'),
+('INF217 : Progressive Web Apps', 'INF217'),
+('INF218 : CMS et E-commerce', 'INF218');
+
+INSERT INTO credit (idMatiere, idOption, semestre, credit) VALUES
+(28, 2, 'S4', 6),
+(29, 2, 'S4', 6),
+(30, 2, 'S4', 6),
+(31, 2, 'S4', 6),
+(32, 2, 'S4', 10),
+(33, 2, 'S4', 4),
+(34, 2, 'S4', 4),
+(35, 2, 'S4', 4),
+(36, 2, 'S4', 4);
+
+-- ===== OPTION RÉSEAUX =====
+INSERT INTO matiere (nom, UE) VALUES
+('INF221 : Architecture réseau avancée', 'INF221'),
+('INF222 : Protocoles et Services', 'INF222'),
+('INF223 : Sécurité réseau et Firewall', 'INF223'),
+('INF224 : Administration serveurs', 'INF224'),
+('INF225 : Mini-projet Réseaux', 'INF225'),
+('MTH208 : Cryptographie', 'MTH208'),
+('INF226 : VoIP et Téléphonie', 'INF226'),
+('INF227 : Virtualisation et Cloud', 'INF227'),
+('INF228 : Supervision réseau', 'INF228');
+
+INSERT INTO credit (idMatiere, idOption, semestre, credit) VALUES
+(37, 3, 'S4', 6),
+(38, 3, 'S4', 6),
+(39, 3, 'S4', 6),
+(40, 3, 'S4', 6),
+(41, 3, 'S4', 10),
+(42, 3, 'S4', 4),
+(43, 3, 'S4', 4),
+(44, 3, 'S4', 4),
+(45, 3, 'S4', 4);
+
+-- ===== INSCRIPTIONS ET AVANCEMENTS =====
+-- Les 5 étudiants sont déjà inscrits en S1
+
+-- Inscriptions S2
+INSERT INTO inscription (DateInscription, idEtudiant, semestre, idPromo) VALUES
+('2025-06-10', 1, 'S2', 1),
+('2025-06-10', 2, 'S2', 1),
+('2025-06-10', 3, 'S2', 1),
+('2025-06-10', 4, 'S2', 1),
+('2025-06-10', 5, 'S2', 1);
+
+-- Inscriptions S3 (tous les étudiants)
+INSERT INTO inscription (DateInscription, idEtudiant, semestre, idPromo) VALUES
+('2025-10-05', 1, 'S3', 1),
+('2025-10-05', 2, 'S3', 1),
+('2025-10-05', 3, 'S3', 1),
+('2025-10-05', 4, 'S3', 1),
+('2025-10-05', 5, 'S3', 1);
+
+-- Inscriptions S4 (tous les étudiants)
+INSERT INTO inscription (DateInscription, idEtudiant, semestre, idPromo) VALUES
+('2026-01-08', 1, 'S4', 1),
+('2026-01-08', 2, 'S4', 1),
+('2026-01-08', 3, 'S4', 1),
+('2026-01-08', 4, 'S4', 1),
+('2026-01-08', 5, 'S4', 1);
+
+-- Avancements S3 pour étudiants 3, 4, 5
+INSERT INTO avancement (idEtudiant, semestre, idSession) VALUES
+(3, 'S3', 3),
+(4, 'S3', 3),
+(5, 'S3', 3);
+
+-- Avancements S4 pour étudiants 3, 4, 5
+INSERT INTO avancement (idEtudiant, semestre, idSession) VALUES
+(3, 'S4', 3),
+(4, 'S4', 3),
+(5, 'S4', 3);
+
+-- ===== NOTES S1 (tous les étudiants) =====
+-- Étudiant 1 (idAvancement = 1)
+INSERT INTO note (idAvancement, idMatiere, note) VALUES
+(1, 1, 15.5),
+(1, 2, 14.0),
+(1, 3, 13.5),
+(1, 4, 12.0),
+(1, 5, 16.0),
+(1, 6, 14.5);
+
+-- Étudiant 2 (idAvancement = 2)
+INSERT INTO note (idAvancement, idMatiere, note) VALUES
+(2, 1, 13.0),
+(2, 2, 12.5),
+(2, 3, 14.0),
+(2, 4, 11.5),
+(2, 5, 15.0),
+(2, 6, 13.0);
+
+-- Étudiant 3 (idAvancement = 3)
+INSERT INTO note (idAvancement, idMatiere, note) VALUES
+(3, 1, 16.0),
+(3, 2, 15.5),
+(3, 3, 14.5),
+(3, 4, 13.0),
+(3, 5, 17.0),
+(3, 6, 15.0);
+
+-- Étudiant 4 (idAvancement = 4)
+INSERT INTO note (idAvancement, idMatiere, note) VALUES
+(4, 1, 12.0),
+(4, 2, 11.5),
+(4, 3, 13.0),
+(4, 4, 10.5),
+(4, 5, 14.0),
+(4, 6, 12.5);
+
+-- Étudiant 5 (idAvancement = 5)
+INSERT INTO note (idAvancement, idMatiere, note) VALUES
+(5, 1, 14.5),
+(5, 2, 13.5),
+(5, 3, 15.0),
+(5, 4, 12.5),
+(5, 5, 16.5),
+(5, 6, 14.0);
+
+-- ===== NOTES S3 pour étudiants 3, 4, 5 =====
+-- Étudiant 3 (idAvancement = 15)
+INSERT INTO note (idAvancement, idMatiere, note) VALUES
+(15, 13, 16.5),
+(15, 14, 15.0),
+(15, 15, 14.0),
+(15, 16, 17.0),
+(15, 17, 15.5),
+(15, 18, 16.0);
+
+-- Étudiant 4 (idAvancement = 16)
+INSERT INTO note (idAvancement, idMatiere, note) VALUES
+(16, 13, 13.0),
+(16, 14, 12.5),
+(16, 15, 11.5),
+(16, 16, 14.0),
+(16, 17, 13.0),
+(16, 18, 13.5);
+
+-- Étudiant 5 (idAvancement = 17)
+INSERT INTO note (idAvancement, idMatiere, note) VALUES
+(17, 13, 15.0),
+(17, 14, 14.5),
+(17, 15, 13.5),
+(17, 16, 16.0),
+(17, 17, 14.0),
+(17, 18, 15.0);
+
+
+-- Étudiant 3 : Option Web (idAvancement = 18)
+INSERT INTO note (idAvancement, idMatiere, note) VALUES
+(18, 28, 16.0),
+(18, 29, 15.5),
+(18, 30, 17.0),
+(18, 31, 14.5),
+(18, 32, 16.5),
+(18, 33, 15.0),
+(18, 34, 14.0),
+(18, 35, 16.0),
+(18, 36, 15.5);
+
+-- Étudiant 4 : Option Réseaux (idAvancement = 19)
+INSERT INTO note (idAvancement, idMatiere, note) VALUES
+(19, 37, 13.5),
+(19, 38, 12.0),
+(19, 39, 14.0),
+(19, 40, 11.5),
+(19, 41, 13.0),
+(19, 42, 12.5),
+(19, 43, 13.0),
+(19, 44, 11.0),
+(19, 45, 12.0);
+
+-- Étudiant 5 : Option Web (idAvancement = 20)
+INSERT INTO note (idAvancement, idMatiere, note) VALUES
+(20, 28, 15.5),
+(20, 29, 14.0),
+(20, 30, 16.0),
+(20, 31, 13.5),
+(20, 32, 15.0),
+(20, 33, 14.5),
+(20, 34, 13.0),
+(20, 35, 15.5),
+(20, 36, 14.0);
+
+-- ===== QUELQUES RATTRAPAGES =====
+-- Étudiant 4 a des notes faibles, ajoutons des rattrapages
+INSERT INTO rattrapage (idAvancement, idMatiere, noteRattrapage) VALUES
+(4, 1, 13.5),  -- S1
+(4, 4, 12.0),  -- S1
+(19, 38, 13.0), -- S4 Réseaux
+(19, 40, 13.5), -- S4 Réseaux
+(19, 44, 12.5); -- S4 Réseaux

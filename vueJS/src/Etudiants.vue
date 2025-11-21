@@ -69,7 +69,7 @@ export default {
         </tr>
       </thead>
       <tbody>
-        <tr v-for="etudiant in etudiants" :key="etudiant.id">
+        <tr v-for="etudiant in etudiants" :key="etudiant.id" @click="$router.push({ name: 'EtudiantDetail', params: { id: etudiant.id } })" style="cursor:pointer;">
           <td>{{ etudiant.ETU }}</td>
           <td>{{ etudiant.nom }}</td>
           <td>{{ etudiant.prenom }}</td>

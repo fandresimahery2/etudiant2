@@ -44,4 +44,31 @@ class EtudiantController {
             ], 500);
         }
     }
+    public static function getById($id) {
+        try {
+            $model = new Etudiant(Flight::db());
+            $etu = $model->getById($id);
+    
+            if ($etu) {
+                Flight::json([
+                    'status' => 'success',
+                    'data' => $etu,
+                    'error' => null
+                ]);
+            } else {
+                Flight::json([
+                    'status' => 'error',
+                    'data' => null,
+                    'error' => 'Etudiant not found'
+                ], 404);
+            }
+        } catch (\Exception $e) {
+            if (ob_get_level()) ob_clean();
+            Flight::json([
+                'status' => 'error',
+                'data' => null,
+                'error' => $e->getMessage()
+            ], 500);
+        }
+    }
 }

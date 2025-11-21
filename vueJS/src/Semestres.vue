@@ -1,3 +1,22 @@
+<script>
+export default {
+  name: 'Semestres',
+  data() {
+    return {
+      semestres: ['S1', 'S2', 'S3', 'S4'],
+      selectedSemestre: localStorage.getItem('semestre') || null,
+      selectedOption: localStorage.getItem('option') || '1'
+    }
+  },
+  methods: {
+    selectSemestre(semestre) {
+      this.selectedSemestre = semestre;
+      localStorage.setItem('semestre', semestre);
+      localStorage.setItem('option', this.selectedOption);
+    }
+  }
+}
+</script>
 <template>
     <div>
       <h2>Liste des semestres</h2>
@@ -16,31 +35,14 @@
         </li>
       </ul>
       <select v-model="selectedOption">
-        <option value="1">Option 1</option>
-        <option value="2">Option 2</option>
+        <option value="1">Option 1: Développement</option>
+        <option value="2">Option 2: Web</option>
+        <option value="3">Option 3: Réseaux</option>
       </select>
     </div>
   </template>
   
-  <script>
-  export default {
-    name: 'Semestres',
-    data() {
-      return {
-        semestres: ['S1', 'S2', 'S3', 'S4'],
-        selectedSemestre: localStorage.getItem('semestre') || null,
-        selectedOption: localStorage.getItem('option') || '1'
-      }
-    },
-    methods: {
-      selectSemestre(semestre) {
-        this.selectedSemestre = semestre;
-        localStorage.setItem('semestre', semestre);
-        localStorage.setItem('option', this.selectedOption);
-      }
-    }
-  }
-  </script>
+
   
   <style scoped>
   .selected {
