@@ -35,8 +35,9 @@ export default {
         </li>
       </ul>
       <select v-model="selectedOption">
-        <option value="1">Option 1</option>
-        <option value="2">Option 2</option>
+        <option value="1">Option 1: Développement</option>
+        <option value="2">Option 2: Web</option>
+        <option value="3">Option 3: Réseaux</option>
       </select>
     </div>
   </template>
